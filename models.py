@@ -10,6 +10,9 @@ def connect_db(app):
     db.init_app(app)
 
 
+DEFAULT_IMG = "https://images.unsplash.com/photo-1562037283-072818fb6d8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=250&q=80"
+
+
 class User(db.Model):
 
     __tablename__ = "users"
@@ -21,5 +24,5 @@ class User(db.Model):
                            nullable=False)
     last_name = db.Column(db.String(50),
                           nullable=False)
-    image_url = db.Column(db.String(50),
-                          nullable=False, default='https://picsum.photos/250')
+    image_url = db.Column(db.Text,
+                          nullable=False, default=DEFAULT_IMG)

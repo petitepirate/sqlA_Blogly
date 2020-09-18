@@ -12,7 +12,7 @@ connect_db(app)
 db.create_all()
 
 app.debug = False
-app.config['SECRET_KEY'] = "SECRET!"
+app.config['SECRET_KEY'] = "asdfjkl"
 debug = DebugToolbarExtension(app)
 
 
@@ -23,47 +23,73 @@ def home():
 
 
 @app.route("/users")
-# Show all users.
 def list_users():
     """List users and show add form button"""
-# Make these links to view the detail page for the user.
+
     users = User.query.all()
 
     return render_template("index.html", users=users)
-# Have a link here to the add-user form.
 
 
-@app.route("/users/new", method=["GET"])
+@app.route("/users/new")
 def users_new_form():
     """Show a form to create a new user"""
+    users = User.query.all()
+    return render_template('usersform.html', users=users)
 
-    return render_template('usersform.html')
+
+@app.route("/users/new", methods=["POST"])
+def user_entry():
+    """Create a new user"""
+
+    new_user = User(
+        first_name=request.form['first_name'],
+        last_name=request.form['last_name'],
+        image_url=request.form['image_url'] or None)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    return redirect("/users")
 
 
-# @app.route("/users/new", methods=["POST"])
-# def user_entry():
-#     """Handle form submission for creating a new user"""
+@app.route("/users/<int:user_id>")
+def show_user(user_id):
+    """show details of a pet"""
+    user = User.query.get_or_404(user_id)
+    image_url = user.image_url
+    print(image_url)
+    return render_template("userdeets.html", user=user, image_url=image_url)
 
-#     # new_user = User(
-#     #     first_name=request.form['first_name'],
-#     #     last_name=request.form['last_name'],
-#     #     image_url=request.form['image_url'])
 
-#     # db.session.add(new_user)
-#     # db.session.commit()
+@app.route("/users/<int:user_id>/edit")
+def edit_user(user_id):
+    """Show edit form"""
+    user = User.query.get_or_404(user_id)
+    return render_template("editform.html", user=user)
 
-#     return redirect("/users")
-# GET / users/[user-id]
-# # Show information about the given user.
 
-# # Have a button to get to their edit page, and to delete the user.
+@app.route('/users/<int:user_id>/edit', methods=["POST"])
+def submit_edit(user_id):
+    """Edit a user"""
 
-# GET / users/[user-id]/edit
-# # Show the edit page for a user.
+    user = User.query.get_or_404(user_id)
+    user.first_name = request.form['first_name']
+    user.last_name = request.form['last_name']
+    user.image_url = request.form['image_url']
 
-# # Have a cancel button that returns to the detail page for a user, and a save button that updates the user.
+    db.session.add(user)
+    db.session.commit()
 
-# POST / users/[user-id]/edit
-# # Process the edit form, returning the user to the /users page.
-# POST / users/[user-id]/delete
-# # Delete the user.
+    return redirect("/users")
+
+
+@app.route('/users/<int:user_id>/delete', methods=["POST"])
+def delete_user(user_id):
+    """Delete user"""
+
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+
+    return redirect("/users")
