@@ -27,5 +27,13 @@ body {
 
 #img {
 	width: 300px;
-	height 200px;
+	height: 200px;
+}
+
+.formdiv {
+	width: 75%;
+}
+
+form {
+	width: 100%;
 }
