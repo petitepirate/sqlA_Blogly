@@ -25,6 +25,7 @@ class UserModelTestCase(TestCase):
         db.session.rollback()
 
     def test_get_full_name(self):
-        elton = User(first_name="Elton", last_name="John",
-                     image_url="https://unsplash.com/photos/fr8yMGRS_X8")
-        self.assertEqual(elton.get_full_name(), "Elton John")
+        crosby = User(first_name="Sidney", last_name="Crosby",
+                      image_url="https://images.unsplash.com/photo-1517177646641-83fe10f14633?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80")
+        self.assertEqual(crosby.get_full_name(), "Sidney Crosby")
+

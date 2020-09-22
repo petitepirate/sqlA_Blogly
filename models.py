@@ -32,6 +32,14 @@ class User(db.Model):
     posts = db.relationship("Post", backref="user",
                             cascade="all, delete-orphan")
 
+    def __repr__(self):
+        u = self
+        return f"<User id={u.id} first_name={u.first_name} last_name={u.last_name} image_url={u.image_url}>"
+
+    def get_full_name(self):
+        u = self
+        return f"{u.first_name} {u.last_name}"
+
 
 class Post(db.Model):
 

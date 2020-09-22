@@ -50,11 +50,11 @@ class UserViewsTestCase(TestCase):
     def test_show_user(self):
         """test user-details route"""
         with app.test_client() as client:
-            resp = client.get(f"/{self.user_id}")
+            resp = client.get(f"/users/{self.user_id}")
             html = resp.get_data(as_text=True)
 
             self.assertEqual(resp.status_code, 200)
-            self.assertIn('<h2>Sidney Crosby</h2>', html)
+            self.assertIn('<h1>Sidney Crosby Details</h1>', html)
 
     def test_create_user(self):
         """tests create-users route"""
