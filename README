@@ -1,1 +1,21 @@
 SQL Alchemy Exercise
+
+The Exercise went really well up until the testing - and even that went fairly well for the most part. 
+My issues started with testing the post requests.  What I'm doing follows the model the provided us,
+but I keep getting a 405 error code when I run my test file.  After checking a ton of different things,
+I went back to the code provided to us for the demo during the videos, and the post request from that
+also returns the same 405 error code.  Maybe you have some idea what's happening?
+
+Here's the message I get in my terminal:
+FAIL: test_add_user (test_flask.BloglyTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/megan/springboard_projects/sqlA_Blogly/test_flask.py", line 88, in test_add_user
+    self.assertEqual(resp.status_code, 200)
+AssertionError: 405 != 200
+
+
+Also I'm curious about data validation.  Is there a reason to use the wtf validation over the 
+html validation?  I had done a code challenge for an internship this week which involved data
+validation, and I managed it with only html. So I was curios - besides the CSRF security, is there
+any other major reasons to use wtflask?
