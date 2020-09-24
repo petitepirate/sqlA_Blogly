@@ -24,7 +24,7 @@ class BloglyTestCase(TestCase):
     def setUp(self):
         """Add sample user."""
 
-        User.query.delete()
+        # User.query.delete()
 
         crosby = User(first_name="Sidney", last_name="Crosby",
                       image_url="https://images.unsplash.com/photo-1517177646641-83fe10f14633?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80")
@@ -35,7 +35,7 @@ class BloglyTestCase(TestCase):
         self.user = crosby
 
         """Add sample post."""
-        Post.query.delete()
+        # Post.query.delete()
         crosbypost = Post(title="Its Hockey Season!",
                           content="Are you ready to watch some hockey!?", user_id=crosby.id)
         db.session.add(crosbypost)
@@ -78,24 +78,24 @@ class BloglyTestCase(TestCase):
     def test_add_user(self):
         with app.test_client() as client:
             user2 = {
-                "first_name": "Test",
-                "last_name": "User2", "image_url": None
+                "first_name": "Test", "last_name": "Testing",
+                "image_url": ""
             }
-            resp = client.post("/users", data=user2,
+            resp = client.post("/users/new", data=user2,
                                follow_redirects=True)
             html = resp.get_data(as_text=True)
 
-            self.assertEqual(resp.status_code, 200)  # getting a 405 error
+            self.assertEqual(resp.status_code, 200)  
             # self.assertIn('Test User2', html)
 
-    def test_edit_user_route(self):
-        """tests edit-user route"""
-        with app.test_client() as client:
-            resp = client.get(f"/users/{self.user_id}/edit")
-            html = resp.get_data(as_text=True)
+    # def test_edit_user_route(self):
+    #     """tests edit-user route"""
+    #     with app.test_client() as client:
+    #         resp = client.get(f"/users/{self.user_id}/edit")
+    #         html = resp.get_data(as_text=True)
 
-            self.assertEqual(resp.status_code, 200)
-            self.assertIn('<h2>Edit User:</h2>', html)
+    #         self.assertEqual(resp.status_code, 200)
+    #         self.assertIn('<h2>Edit User:</h2>', html)
 
     # def test_edit_user(self):
     #     with app.test_client() as client:
